@@ -1,0 +1,1 @@
+void* binary_search(void* arr, size_t num_elements, size_t element_size, const void* target);

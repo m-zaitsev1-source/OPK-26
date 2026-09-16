@@ -1,28 +1,30 @@
 #include <stdio.h>
-int binary_search(int arr[], int size, int target) {
-    int left = 0;
-    int right = size - 1;
-    if (size <= 0) {
-        return -1; 
+#include "binary_search.h"
+#define EPSILON 1e-6
+void* binary_search(void* arr[], size_t element_size, size_t num_elements, const void* target) {
+    size_t left = 0;
+    size_t right = num_elements - 1;
+    if (num_elements <= 0) {
+        return NULL;
     }
-    else if (size == 1) {
-        return (arr[0] == target) ? 0 : -1;
+    else if (num_elements == 1) {
+        return fabs(*arr - *target) < EPSILON ? *arr : NULL;
     }
-    if (arr[left] == target) {
+    if (fabs(*(arr+left) - *target) < EPSILON) {
         return left;
     }
-    if (arr[right] == target) {
+    if (fabs(*(arr+right) - *target) < EPSILON) {
         return right;
     }
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (arr[mid] == target) {
+    while (left - right < EPSILON) {
+        size_t mid = left + (right - left) / 2;
+        if (fabs(*(arr+mid) - *target) < EPSILON) {
             return mid;
-        } else if (arr[mid] < target) {
+        } else if (*(arr+mid) - *target < -EPSILON) {
             left = mid + 1;
         } else {
             right = mid - 1;
         }
     }
-    return -1;
+    return NULL;
 }
