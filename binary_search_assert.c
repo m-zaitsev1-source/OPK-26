@@ -3,7 +3,7 @@
 #include "binary_search.c"
 #include <stdlib.h>
 #include "binary_search.h"
-
+//assert
 int main() {
     //element in massive
     double arr1[] = {1.0, 2.0, 3.0, 4.0, 5.0};
