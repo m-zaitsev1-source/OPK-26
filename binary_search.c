@@ -13,7 +13,7 @@ int compare(const void* a, const void* b) {
         return 1;
     }
 }
-
+//function to perform binary searchs
 size_t binary_search(void* arr[], size_t num_elements, const void* target) {
     size_t left = 0;
     size_t right = num_elements - 1;
