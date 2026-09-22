@@ -2,7 +2,7 @@
 #include <math.h>
 #include "binary_search.h"
 #define EPSILON 1e-6
-
+//function to compare two elements
 int compare(const void* a, const void* b) {
     double diff = *(double*)a - *(double*)b;
     if (fabs(diff) < EPSILON) {
@@ -13,7 +13,7 @@ int compare(const void* a, const void* b) {
         return 1;
     }
 }
-
+//function to perform binary searchs
 size_t binary_search(void* arr[], size_t num_elements, const void* target) {
     size_t left = 0;
     size_t right = num_elements - 1;
