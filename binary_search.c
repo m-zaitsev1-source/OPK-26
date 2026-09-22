@@ -2,7 +2,7 @@
 #include <math.h>
 #include "binary_search.h"
 #define EPSILON 1e-6
-
+//function to compare two elements
 int compare(const void* a, const void* b) {
     double diff = *(double*)a - *(double*)b;
     if (fabs(diff) < EPSILON) {
