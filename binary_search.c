@@ -6,7 +6,11 @@
 #define EPSILON 1e-6
 // function to perform binary search
 
-int binary_search(const void *arr, size_t size, size_t element_size, const void *target, int (*compare)(const void*, const void*)) {
+int binary_search(const void *arr,
+                size_t size, 
+                size_t element_size, 
+                const void *target, 
+                int (*compare)(const void*, const void*)) {
     if (arr == NULL || size == 0 || compare == NULL || target == NULL|| element_size == 0) {
         return -1;
     }

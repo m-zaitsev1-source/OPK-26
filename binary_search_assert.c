@@ -2,7 +2,6 @@
 #include <assert.h>
 #include "binary_search.c"
 #include <stdlib.h>
-#include "binary_search.h"
 //assert
 int main() {
     //element in massive
