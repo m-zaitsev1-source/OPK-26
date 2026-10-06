@@ -1,2 +1,2 @@
-#define 
-int is_balanced(char* str);
+#pragma once
+int is_balanced(char str[], int size);
