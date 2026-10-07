@@ -40,10 +40,11 @@ void insertion_sort(const void *arr,
                     size_t element_size, 
                     int (*compare)(const void *, const void *)) 
     {
+    if (arr == NULL || n == 0 || element_size == 0 || compare == NULL) {
+        return;
+    }
     size_t i, j;
-    const void *key;
-    for (i = 2; i < n; i++) {
-        key = (const char*)arr + i * element_size;
+    for (i = 1; i < n; i++) {
         j = i;
         while (j > 0 && compare((const char*)arr + j * element_size, (const char*)arr + (j-1) * element_size) < 0) {
             swap((void*)((const char*)arr + j * element_size), (void*)((const char*)arr + (j-1) * element_size), element_size);
