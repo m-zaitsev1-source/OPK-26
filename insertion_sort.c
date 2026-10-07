@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include "insertion_sort.h"
 #define EPSILON 1e-9
 int compare_int(const void *a, const void *b) {
     int ia = *(const int*)a;
@@ -21,18 +22,30 @@ int compare_char(const void *a, const void *b) {
     char cb = *(const char*)b;
     return (ca > cb) - (ca < cb);
 }
+void swap(void *a, void *b, size_t size) {
+    char *temp = (char*)malloc(size);
+    if (temp == NULL) {
+        return 0; // Handle memory allocation failure
+    }
+    memcpy(temp, a, size);
+    memcpy(a, b, size);
+    memcpy(b, temp, size);
+    free(temp);
+}
 
-
-void insertion_sort(void *arr[], int*n, int (*compare)(const void *, const void *)) {
-    int i, j;
-    void *key;
-    for (i = 1; i < *n; i++) {
-        key = arr[i];
-        j = i - 1;
-        while (j >= 0 && compare(arr[j], key) > 0) {
-            arr[j + 1] = arr[j];
+void insertion_sort(const void *arr,
+                    size_t n, 
+                    size_t element_size, 
+                    int (*compare)(const void *, const void *)) 
+    {
+    size_t i, j;
+    const void *key;
+    for (i = 2; i < n; i++) {
+        key = (const char*)arr + i * element_size;
+        j = i;
+        while (j > 0 && compare((const char*)arr + j * element_size, (const char*)arr + (j-1) * element_size) < 0) {
+            swap((const char*)arr + j * element_size, (const char*)arr + (j-1) * element_size, element_size);
             j = j - 1;
         }
-        arr[j + 1] = key;
     }
 }
