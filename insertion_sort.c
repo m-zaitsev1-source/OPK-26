@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include "insertion_sort.h"
 #define EPSILON 1e-9
@@ -23,9 +25,9 @@ int compare_char(const void *a, const void *b) {
     return (ca > cb) - (ca < cb);
 }
 void swap(void *a, void *b, size_t size) {
-    char *temp = (char*)malloc(size);
+    void *temp = malloc(size);
     if (temp == NULL) {
-        return 0; // Handle memory allocation failure
+        return;
     }
     memcpy(temp, a, size);
     memcpy(a, b, size);
@@ -44,7 +46,7 @@ void insertion_sort(const void *arr,
         key = (const char*)arr + i * element_size;
         j = i;
         while (j > 0 && compare((const char*)arr + j * element_size, (const char*)arr + (j-1) * element_size) < 0) {
-            swap((const char*)arr + j * element_size, (const char*)arr + (j-1) * element_size, element_size);
+            swap((void*)((const char*)arr + j * element_size), (void*)((const char*)arr + (j-1) * element_size), element_size);
             j = j - 1;
         }
     }
