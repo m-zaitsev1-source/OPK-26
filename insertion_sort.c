@@ -1,21 +1,29 @@
 #include <stdio.h>
 #include <math.h>
 #define EPSILON 1e-9
-int compare_int(void *a, void *b) {
-    return (*(int *)a - *(int *)b);
-}
-int compare_double(void *a, void *b) {
-    if (fabs(*(double *)a - *(double *)b) < EPSILON) {
-        return 0;
-    }
-    else if (*(double *)a - *(double *)b > EPSILON) {
-        return -1;
-    } else {
-        return 1;
-    }
+int compare_int(const void *a, const void *b) {
+    int ia = *(const int*)a;
+    int ib = *(const int*)b;
+    return (ia > ib) - (ia < ib);
 }
 
-void insertion_sort(void *arr[], int*n, int (*compare)(void *,void *)) {
+int compare_double(const void *a, const void *b) {
+    double da = *(const double*)a;
+    double db = *(const double*)b;
+    if (fabs(da - db) < EPSILON) {
+        return 0;
+    }
+    return (da > db) - (da < db);
+}
+
+int compare_char(const void *a, const void *b) {
+    char ca = *(const char*)a;
+    char cb = *(const char*)b;
+    return (ca > cb) - (ca < cb);
+}
+
+
+void insertion_sort(void *arr[], int*n, int (*compare)(const void *, const void *)) {
     int i, j;
     void *key;
     for (i = 1; i < *n; i++) {
