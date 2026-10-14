@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "clip_balance.h"
 #define BANK_RIGHT_CLIPS {')', ']', '}', '>'}
 #define BANK_LEFT_CLIPS {'(', '[', '{', '<'}
@@ -19,11 +20,11 @@ int in(char arr[], char ch, int size)
     }
     return 0;
 }
-int is_empty() {
+bool is_empty() {
     return top == -1;
 }
 
-int is_full() {
+bool is_full() {
     return top == SIZE - 1;
 }
 
@@ -42,7 +43,7 @@ int pop() {
     }
     return stack[top--];
 }
-int is_balanced(char str[])
+bool is_balanced(char str[])
 {
     char left_clips[BANK_SIZE] = BANK_LEFT_CLIPS;
     char right_clips[BANK_SIZE] = BANK_RIGHT_CLIPS;
