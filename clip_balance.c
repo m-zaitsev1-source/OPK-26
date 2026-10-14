@@ -5,42 +5,75 @@
 #define BANK_RIGHT_CLIPS {')', ']', '}', '>'}
 #define BANK_LEFT_CLIPS {'(', '[', '{', '<'}
 #define BANK_SIZE 4
-int is_balanced(char str[], int size)
+#define SIZE 100
+
+int stack[SIZE];
+int top = -1; 
+
+int in(char arr[], char ch, int size)
+{
+    for (int i = 0; i < size; i++){
+        if (arr[i] == ch){
+            return 1;
+        }
+    }
+    return 0;
+}
+int is_empty() {
+    return top == -1;
+}
+
+int is_full() {
+    return top == SIZE - 1;
+}
+
+void push(int value) {
+    if (is_full()) {
+        printf("Stack Overflow\n");
+        return;
+    }
+    stack[++top] = value;
+}
+
+int pop() {
+    if (is_empty()) {
+        printf("Stack Underflow\n");
+        return -1;
+    }
+    return stack[top--];
+}
+int is_balanced(char str[])
 {
     char left_clips[BANK_SIZE] = BANK_LEFT_CLIPS;
     char right_clips[BANK_SIZE] = BANK_RIGHT_CLIPS;
     if (str == NULL|| str[0] == '\0' || sizeof(left_clips) != sizeof(right_clips)){return 0;}
     int count = 0;
-    for (int i = 1; i <= size; i++){
-        for (int j = 0; j < BANK_SIZE; j++){
-            if (str[i-1] == left_clips[j] && str[i] == right_clips[j]){
-                str[i-1]='0';
-                str[i]='0';
-                count = count + 2;
-                i = i + 1;
-                break;
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (in(left_clips, str[i], BANK_SIZE)) {
+            push(str[i]);
+            count++;
+        } 
+        else if (in(right_clips, str[i], BANK_SIZE)) {
+            if (is_empty()) {
+                return 0;
             }
-            if (str[i-1] == right_clips[j] && str[size-1-(i-1)] == left_clips[j])
-            {
-                str[i-1]='0';
-                str[size-1-(i-1)]='0';
-                count = count + 2;
-                break;
+            char left_clip = pop();
+            char right_clip = str[i];
+            int found = 0;
+            for (int j = 0; j < BANK_SIZE; j++) {
+                if (left_clip == left_clips[j] && right_clip == right_clips[j]) {
+                    count--;
+                    found = 1;
+                    break;
+                }
             }
-        }
-    }
-    if (count == 0){
-        return 0;
-    }
-    if (count == size){
-        return 1;
-    }
-    else if (count > 0 && count < size){
-        for (int j = 0; j < size; j++){
-            if (str[j] != '0'){
+            if (!found) {
                 return 0;
             }
         }
+    }
+    if (count != 0) {
+        return 0;
     }
     return 1;
 }
