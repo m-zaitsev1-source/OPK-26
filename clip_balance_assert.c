@@ -21,7 +21,7 @@ int main() {
     char str12[] = "[[BIG SHOT]]\0";
     char str13[] = "a(b)c[d]e{f}g<h>i\0";
     char str14[] = "a(b)c[d]e{f}g<h\0";
-    char str15[] = "[[HEAVENS]] listen [[BIG SHOT]]\0";
+    char str15[] = "[[THE HEAVENS]] listen [[BIG SHOT]]\0";
     assert(is_balanced(str2) == 1);
     assert(is_balanced(str3) == 1);
     assert(is_balanced(str10) == 0);
