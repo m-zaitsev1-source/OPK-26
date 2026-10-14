@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 void heapify(void *arr, 
             int n, 
             int i, 
