@@ -17,6 +17,7 @@ int is_balanced(char str[], int size)
                 str[i-1]='0';
                 str[i]='0';
                 count = count + 2;
+                i = i + 1;
                 break;
             }
             if (str[i-1] == right_clips[j] && str[size-1-(i-1)] == left_clips[j])
