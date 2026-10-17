@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "heapsort.c"
 #include "heapsort_assert.h"
+#include <math.h>
 #define EPSILON 1e-9
 int compare_int(const void *a, const void *b) {
     int ia = *(const int*)a;
@@ -25,7 +26,7 @@ int compare_char(const void *a, const void *b) {
 }
 void compare_assert(void* a, void* b, size_t size, size_t element_size){
     for (size_t i = 0; i < size; i++) {
-        assert(*((const char*)a + i*element_size) == *((const char*)b + i*element_size));
+        assert(*((char*)a + i*element_size) == *((char*)b + i*element_size));
     }
 }
 
