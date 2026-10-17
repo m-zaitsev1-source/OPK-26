@@ -1,6 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "heapsort.h"
+void swap(void *a, void *b, size_t size) {
+    void *temp = malloc(size);
+    if (temp == NULL) {
+        return;
+    }
+    memcpy(temp, a, size);
+    memcpy(a, b, size);
+    memcpy(b, temp, size);
+    free(temp);
+}
+
 void heapify(void *arr, 
             int n, 
             int i, 
@@ -18,10 +30,7 @@ void heapify(void *arr,
         largest = r;
 
     if (largest != i) {
-        char temp[element_size];
-        memcpy(temp, (char*)arr+i*element_size, element_size);
-        memcpy((char*)arr+i*element_size, (char*)arr+largest*element_size, element_size);
-        memcpy((char*)arr+largest*element_size, temp, element_size);
+        swap((void*)((const char*)arr+i*element_size), (void*)((const char*)arr+largest*element_size), element_size);
         heapify(arr, n, largest, element_size, compare);
     }
 }
@@ -33,10 +42,7 @@ void heapSort(void *arr, int n,
         heapify(arr, n, i, element_size, compare);
     }
     for (int i = n - 1; i > 0; i--) {
-        char temp[element_size];
-        memcpy(temp, (char*)arr+0*element_size, element_size);
-        memcpy((char*)arr+0*element_size, (char*)arr+i*element_size, element_size);
-        memcpy((char*)arr+i*element_size, temp, element_size);
+        swap((void*)((const char*)arr), (void*)((const char*)arr+i*element_size), element_size);
         heapify(arr, i, 0, element_size, compare);
     }
 }
