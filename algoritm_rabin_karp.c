@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "algoritm_rabin_karp.h"
 #define PRIME 31
 
 int hash(char *str, int length) {
@@ -11,6 +12,9 @@ int hash(char *str, int length) {
     return hash_value%PRIME;
 }
 int rabin_karp(char *text, char *pattern) {
+    if (text == "" || pattern == "" || strlen(pattern)>strlen(text)) {
+        return -1;
+    }
     int text_length = strlen(text);
     int pattern_length = strlen(pattern);
     int pattern_hash = hash(pattern, pattern_length);
