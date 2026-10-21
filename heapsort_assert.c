@@ -58,6 +58,11 @@ int main() {
     heapSort(arr_0, n_0, sizeof(int), compare_int);
     int expected_0[] = {};
     compare_assert(arr_0, expected_0, n_0, sizeof(int));
+    int arr_1[] = {};
+    size_t n_1 = -1;
+    heapSort(arr_1, n_1, sizeof(int), compare_int);
+    int expected_0[] = {};
+    compare_assert(arr_0, expected_0, n_0, sizeof(int));
     printf("Heap sort 0 elements test passed!\n");
     // equal elements
     int arr_eq[] = {5, 5, 5, 5, 5};

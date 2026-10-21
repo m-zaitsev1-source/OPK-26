@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "heapsort.h"
-void swap(void *a, void *b, size_t size) {
+void swap(void *a, void *b, size_t size) { // переписат
     void *temp = malloc(size);
     if (temp == NULL) {
         return;
@@ -14,8 +14,8 @@ void swap(void *a, void *b, size_t size) {
 }
 
 void heapify(void *arr, 
-            int n, 
-            int i, 
+            size_t n, 
+            size_t i, 
             size_t element_size, 
             int (*compare)(const void *, const void *)) 
     {
@@ -34,7 +34,7 @@ void heapify(void *arr,
         heapify(arr, n, largest, element_size, compare);
     }
 }
-void heapSort(void *arr, int n, 
+void heapSort(void *arr, size_t n, 
             size_t element_size, 
             int (*compare)(const void *, const void *)) {
 
