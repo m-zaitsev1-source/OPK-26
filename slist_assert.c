@@ -1,22 +1,34 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <math.h>
 #include "slist.c"
 #define EPSILON 0.00001
 void add_sum(Pointer data, void *arg) {
-        int *p = (int*)(const char*)arg;
-        *p += (int)(const char*)data;
+        int *p = (int*)arg;
+        p += *(int*)data;
         return;
     }
-int cmp_int(Pointer data, void *arg) {
-        return (int)(const char*)data == (int)(const char*)arg;
+int compare_int(Pointer a, void *b) {
+    int ia = *(const int*)a;
+    int ib = *(const int*)b;
+    return (ia > ib) - (ia < ib);
+}
+
+int compare_double(Pointer a, void *b) {
+    double da = *(const double*)a;
+    double db = *(const double*)b;
+    if (fabs(da - db) < EPSILON) {
+        return 0;
     }
-int cmp_double(Pointer data, void *arg) {
-        return fabs(*(double)(const char*)data - *(double)(const char*)arg) < EPSILON;
-    }
-int cmp_char(Pointer data, void *arg) {
-        return (char)(const char*)data == (char)(const char*)arg;
-    }
+    return (da > db) - (da < db);
+}
+
+int compare_char(Pointer a, void *b) {
+    char ca = *(const char*)a;
+    char cb = *(const char*)b;
+    return (ca > cb) - (ca < cb);
+}
 int main() {
     //test slist_create, slist_append, slist_get, slist_get_last, slist_length, and slist_destroy
     SList *list = (SList*)malloc(sizeof(SList));
@@ -90,15 +102,15 @@ int main() {
     int sum = 0;
     slist_foreach(list6, add_sum, &sum);
     assert(sum == 45);
-
+//////////////////////////////////////
     // test slist_find_custom
     SList *list_int = (SList*)malloc(sizeof(SList));
     slist_create(list_int);
     for (int i = 0; i < 10; i++) {
-        slist_append(list_int, (Pointer)i);
+        slist_append(list_int, *(const Pointer*)&i);
     }
     Pointer out;
-    int out_index = slist_find_custom(list_int, cmp_int, (void*)5, (void*)&out);
+    int out_index = slist_find_custom(list_int, compare_int, (void*)5, (void*)&out);
     assert(out_index == 5);
     assert(out == (Pointer)5);
     /*SList *list_double = (SList*)malloc(sizeof(SList));
@@ -107,16 +119,17 @@ int main() {
         slist_append(list_double, (Pointer)i);
     }
     double out_double;
-    int out_index_double = slist_find_custom(list_double, cmp_double, (void*)5.0, (void*)&out_double);
+    int out_index_double = slist_find_custom(list_double, compare_double, (void*)5.0, (void*)&out_double);
     assert(out_index_double == 5);
     assert(out_double == (double)5.0);*/
     SList *list_char = (SList*)malloc(sizeof(SList));
     slist_create(list_char);
+    char charr[10] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
     for (int i = 0; i < 10; i++) {
-        slist_append(list_char, (Pointer)(char)(i + 'a'));
+        slist_append(list_char, *(const Pointer*)(charr+i));
     }
     char out_char;
-    int out_index_char = slist_find_custom(list_char, cmp_char, (void*)'e', (void*)&out_char);
+    int out_index_char = slist_find_custom(list_char, compare_char, (void*)'e', (void*)&out_char);
     assert(out_index_char == 4);
     assert(out_char == (char)'e');
     free(list);
