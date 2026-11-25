@@ -190,14 +190,7 @@ void slist_concat(SList *dst, SList *src){
         SList *next = current->next;
         current = next;
     }
-    SList *new_node = (SList*)malloc(sizeof(SList));
-        if (new_node == NULL) {
-            return;
-        }
-    slist_create(new_node);
-    new_node->data = src->data;
-    new_node->next = src->next;
-    current->next = new_node;
+    current->next = src;
     
 }
 void slist_foreach(SList *list, void (*func)(Pointer data, void *arg), void *arg){
@@ -224,6 +217,7 @@ int slist_find_custom(SList *list, int (*predicate)(Pointer data, void *arg), vo
     }
     return -1;
 }
+//lol
 void slist_from_array(SList *list, Pointer *arr, size_t n){
     for (size_t i = 0; i < n; i++)
     {
@@ -231,7 +225,6 @@ void slist_from_array(SList *list, Pointer *arr, size_t n){
     }
 }
 Pointer *slist_to_array(SList *list, size_t n){
-    n = slist_length(list);
     Pointer *arr = (Pointer*)malloc(sizeof(Pointer) * n);
     SList *current = list;
     size_t i = 0;

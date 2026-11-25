@@ -48,20 +48,22 @@ int main() {
     SList *list_new = malloc(SIZE_SLIST);
     slist_create(list_new);
     int arr[] = {0,1,2,3,4,5,6,7,8,9};
-    for (int i = 0; i < 10; i++){
-        slist_prepend(list_new, &arr[i]);
+    int**arr_mall=malloc(sizeof(int*)*10);
+    for (int i = 0; i<10; i++){
+        arr_mall[i] = &arr[i];
     }
+    slist_from_array(list_new, (void**)arr_mall, 10);
     SList *list_copy = malloc(SIZE_SLIST);
     slist_copy(list_copy, list_new);
     assert(slist_length(list_copy)==10);
-    int not_fnd = 11;
+    int not_fnd = 1;
     int fnd1 = slist_find(list_new, &not_fnd);
     int fnd2 = slist_find(list_new, &arr[5]);
     int *lst= slist_get_last(list_new);
     assert(fnd1 == -1);
-    assert(fnd2 == 4);
-    assert(lst == &arr[0]);
-    for (int i = 9; i>= 0; i--){
+    assert(fnd2 == 5);
+    assert(lst == &arr[9]);
+    for (int i = 0; i< 10; i++){
         int *p = slist_remove(list_new, 0);
         assert(p==&arr[i]);
     }
@@ -71,11 +73,10 @@ int main() {
     slist_append(list_new, &not_fnd);
     assert(slist_remove_first(list_copy, &not_fnd) == NULL);
     slist_concat(list_copy, list_new);
-    int new_arr[10];
-    slist_from_array(list_copy, new_arr, 10);
+    assert(slist_remove_first(list_copy, &not_fnd) != NULL);
+    int *arr_con = (int*)slist_to_array(list_copy, 11);
     for (int i = 0; i<10; i++){
-        printf("%d", new_arr[i]);
-    }
-    assert(slist_remove_first(list_copy, &not_fnd) == 0);
-    return 0;    
+        printf("%d", arr_con[i]);
+    } 
+    return 0;
 }
