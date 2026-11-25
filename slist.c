@@ -1,21 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "slist.h"
-void slist_create(SList *list) {
+//lol
+void slist_create(SList *list) { 
     list->data = NULL;
     list->next = NULL;
 }
+//lol
 void slist_destroy(SList *list) {
     SList *current = list;
-    while (current != NULL)
+    while (current->next != NULL)
     {
         SList *next = current->next;
-        current->data = NULL;
+        free(current);
         current = next;
     }
+    list->data = NULL;
+    list->next = NULL;
 }
+//lol
 size_t slist_length(SList *list){
-    if (list->data == NULL) return 0;
+    if ((list == NULL) || (list->next == NULL && list->data == NULL)) return 0;
     size_t num = 1;
     SList *current = list;
     while (current->next != NULL)
@@ -26,6 +31,7 @@ size_t slist_length(SList *list){
     }
     return num;
 }
+//lol
 Pointer slist_get(SList *list, int index){
     size_t num = 0;
     SList *current = list;
@@ -38,6 +44,7 @@ Pointer slist_get(SList *list, int index){
     }
     return NULL;
 }
+//lol
 Pointer slist_get_last(SList *list){
     SList *current = list;
     while (current->next != NULL)
@@ -47,22 +54,25 @@ Pointer slist_get_last(SList *list){
     }
     return current->data;
 }
+//lol
 void slist_prepend(SList *list, Pointer data){
-    if (list->data == NULL) {
+    if (list->data == NULL){
         list->data = data;
         return;
     }
-    SList *new_node = (SList*)malloc(sizeof(SList));
-    if (new_node == NULL) {
-        return;
+    else{
+        SList *new_node = (SList*)malloc(sizeof(SList));
+        if (new_node == NULL) {
+            return;
+        }
+        slist_create(new_node);
+        new_node->data = list->data;
+        new_node->next = list->next;
+        list->next = new_node;
+        list->data = data;
     }
-    slist_create(new_node);
-    new_node->data = list->data;
-    new_node->next = list->next;
-    list->next = new_node;
-    list->data = data;
 }
-
+//lol
 void slist_append(SList *list, Pointer data){
     if (list->data == NULL) {
         list->data = data;
@@ -83,21 +93,31 @@ void slist_append(SList *list, Pointer data){
     }
     current->next = new_node;
 }
+//lol
 Pointer slist_remove(SList *list, int index){
     size_t num = 0;
     SList *current = list;
-    while (current != NULL)
+    Pointer Data = NULL;
+    while (current->next != NULL)
     {
         SList *next = current->next;
-        num += 1;
+        Data = current->data;
         if (num == index){
             current->next = next->next;
-            return next->data;  
+            current->data = next->data;
+            return Data;  
         }
+        num += 1;
         current = next;
+    }
+    if (num == index){
+        Data = current->data;
+        current->data = NULL;
+        return Data;
     }
     return NULL;
 }
+//lol
 int slist_find(SList *list, Pointer data){
     size_t num = 0;
     SList *current = list;
@@ -110,6 +130,7 @@ int slist_find(SList *list, Pointer data){
     }
     return -1;
     }
+//lol
 Pointer slist_remove_first(SList *list, Pointer data){
     SList *current = list;
     while (current != NULL)
@@ -151,6 +172,7 @@ size_t slist_remove_all(SList *list, Pointer data){
     }
     return count;
 }
+//lol
 void slist_copy(SList *dst, SList *src){
     SList *current = src;
     while (current != NULL)
@@ -160,14 +182,23 @@ void slist_copy(SList *dst, SList *src){
         current = next;
     }
 }
+//lol
 void slist_concat(SList *dst, SList *src){
-    SList *current = src;
-    while (current != NULL)
+    SList *current = dst;
+    while (current->next != NULL)
     {
-        slist_append(dst, current->data);
         SList *next = current->next;
         current = next;
     }
+    SList *new_node = (SList*)malloc(sizeof(SList));
+        if (new_node == NULL) {
+            return;
+        }
+    slist_create(new_node);
+    new_node->data = src->data;
+    new_node->next = src->next;
+    current->next = new_node;
+    
 }
 void slist_foreach(SList *list, void (*func)(Pointer data, void *arg), void *arg){
     SList *current = list;
