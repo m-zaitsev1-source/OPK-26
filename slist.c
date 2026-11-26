@@ -193,6 +193,7 @@ void slist_concat(SList *dst, SList *src){
     current->next = src;
     
 }
+//lol
 void slist_foreach(SList *list, void (*func)(Pointer data, void *arg), void *arg){
     SList *current = list;
     while (current != NULL)
@@ -224,11 +225,12 @@ void slist_from_array(SList *list, Pointer *arr, size_t n){
         slist_append(list, arr[i]);
     }
 }
+//lol
 Pointer *slist_to_array(SList *list, size_t n){
     Pointer *arr = (Pointer*)malloc(sizeof(Pointer) * n);
     SList *current = list;
     size_t i = 0;
-    while (current != NULL)
+    while (i < n)
     {
         arr[i] = current->data;
         SList *next = current->next;
